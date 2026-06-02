@@ -20,19 +20,6 @@ module.exports = function(RED) {
         var dgram = require('dgram');
         node.socket = dgram.createSocket('udp4');
         
-        // 启用广播接收
-        node.socket.setBroadcast(true);
-        
-        // 如果配置了组播地址，加入组播组
-        if (node.multicast && /^22[4-9]\.|^23[0-9]\./.test(node.multicast)) {
-            try {
-                node.socket.addMembership(node.multicast);
-                node.log('Joined multicast group: ' + node.multicast);
-            } catch (e) {
-                node.error('Failed to join multicast group: ' + e.message);
-            }
-        }
-        
         // OSC 解码函数
         function decodeOscString(buffer, offset) {
             var end = offset;
@@ -148,6 +135,19 @@ module.exports = function(RED) {
             node.listening = true;
             node.log('Listening for OSC messages on port ' + node.port);
             node.status({fill: "green", shape: "dot", text: "port " + node.port});
+            
+            // 启用广播接收
+            node.socket.setBroadcast(true);
+            
+            // 如果配置了组播地址，加入组播组
+            if (node.multicast && /^22[4-9]\.|^23[0-9]\./.test(node.multicast)) {
+                try {
+                    node.socket.addMembership(node.multicast);
+                    node.log('Joined multicast group: ' + node.multicast);
+                } catch (e) {
+                    node.error('Failed to join multicast group: ' + e.message);
+                }
+            }
         });
         
         // 接收 OSC 消息
