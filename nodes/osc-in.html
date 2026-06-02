@@ -5,7 +5,8 @@
         defaults: {
             name: { value: "" },
             port: { value: 9001, required: true, validator: RED.validators.number() },
-            address: { value: "/ventuz/*", required: true }
+            address: { value: "/ventuz/*", required: true },
+            multicast: { value: "" }
         },
         inputs: 0,
         outputs: 1,
@@ -29,6 +30,10 @@
     <div class="form-row">
         <label for="node-input-address"><i class="fa fa-map-marker"></i> OSC Address Filter</label>
         <input type="text" id="node-input-address" placeholder="/ventuz/*">
+    </div>
+    <div class="form-row">
+        <label for="node-input-multicast"><i class="fa fa-network-wired"></i> Multicast Group</label>
+        <input type="text" id="node-input-multicast" placeholder="230.230.230.235 (可选)">
     </div>
 </script>
 

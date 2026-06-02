@@ -11,6 +11,7 @@ module.exports = function(RED) {
         // 配置
         node.port = parseInt(config.port) || 9001;
         node.address = config.address || '/ventuz/*';
+        node.multicast = config.multicast || '';
         
         // 状态
         node.listening = false;
@@ -18,6 +19,19 @@ module.exports = function(RED) {
         // 初始化 UDP socket
         var dgram = require('dgram');
         node.socket = dgram.createSocket('udp4');
+        
+        // 启用广播接收
+        node.socket.setBroadcast(true);
+        
+        // 如果配置了组播地址，加入组播组
+        if (node.multicast && /^22[4-9]\.|^23[0-9]\./.test(node.multicast)) {
+            try {
+                node.socket.addMembership(node.multicast);
+                node.log('Joined multicast group: ' + node.multicast);
+            } catch (e) {
+                node.error('Failed to join multicast group: ' + e.message);
+            }
+        }
         
         // OSC 解码函数
         function decodeOscString(buffer, offset) {
