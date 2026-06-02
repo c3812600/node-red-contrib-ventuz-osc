@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('ventuz-broadcast', {
+    RED.nodes.registerType('osc-out', {
         category: 'network',
         color: '#a6bbcf',
         defaults: {
@@ -14,11 +14,11 @@
         label: function() {
             return this.name || this.host + ':' + this.port;
         },
-        paletteLabel: "ventuz broadcast"
+        paletteLabel: "osc out"
     });
 </script>
 
-<script type="text/html" data-template-name="ventuz-broadcast">
+<script type="text/html" data-template-name="osc-out">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -37,22 +37,33 @@
     </div>
 </script>
 
-<script type="text/html" data-help-name="ventuz-broadcast">
-    <p>Ventuz Broadcast 节点</p>
+<script type="text/html" data-help-name="osc-out">
+    <p>OSC Out 节点 - 发送 OSC 消息</p>
     <h3>Inputs</h3>
     <dl class="message-properties">
-        <dt>payload <span class="property-type">string | array | object</span></dt>
-        <dd>OSC 消息内容</dd>
+        <dt>payload <span class="property-type">string | number | boolean | array | object</span></dt>
+        <dd>OSC 消息参数</dd>
         <dt>topic <span class="property-type">string</span></dt>
         <dd>OSC 地址（可选，覆盖节点配置）</dd>
     </dl>
-    <h3>Outputs</h3>
-    <dl class="message-properties">
-        <dt>payload <span class="property-type">string | array | object</span></dt>
-        <dd>原始消息</dd>
-    </dl>
     <h3>Details</h3>
-    <p>向 Ventuz 应用发送 OSC 消息。配置 Ventuz 主机地址、端口和 OSC 地址。</p>
+    <p>向指定目标发送 OSC 消息。支持以下数据类型：</p>
+    <ul>
+        <li><b>整数</b> - 32位有符号整数</li>
+        <li><b>浮点数</b> - 32位浮点数</li>
+        <li><b>字符串</b> - UTF-8 编码，支持中文（自动 BEUC 编码）</li>
+        <li><b>布尔值</b> - 自动转换为整数 (0/1)</li>
+        <li><b>Blob</b> - Buffer 类型数据</li>
+    </ul>
+    <p>消息格式为 OSC Bundle，包含时间戳。</p>
     <h3>Examples</h3>
-    <pre>[{"topic": "/ventuz/broadcast", "payload": "Hello Ventuz"}]</pre>
+    <pre>// 发送字符串
+[{"topic": "/ventuz/text", "payload": "Hello World"}]
+
+// 发送数字
+[{"topic": "/ventuz/value", "payload": 123.45}]
+
+// 发送数组（多个参数）
+[{"topic": "/ventuz/data", "payload": [1, 2.5, "test"]}]
+</pre>
 </script>

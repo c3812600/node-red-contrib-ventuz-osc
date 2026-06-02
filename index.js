@@ -4,6 +4,6 @@
  */
 
 module.exports = function(RED) {
-    RED.nodes.registerType("ventuz-broadcast", require("./nodes/ventuz-broadcast"));
-    RED.nodes.registerType("ventuz-subscribe", require("./nodes/ventuz-subscribe"));
+    RED.nodes.registerType("osc-out", require("./nodes/osc-out"));
+    RED.nodes.registerType("osc-in", require("./nodes/osc-in"));
 };

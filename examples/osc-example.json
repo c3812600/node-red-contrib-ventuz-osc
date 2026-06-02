@@ -1,16 +1,16 @@
 [
     {
-        "id": "ventuz-example-flow",
+        "id": "osc-example-flow",
         "type": "tab",
-        "label": "Ventuz OSC Example",
+        "label": "OSC Example",
         "disabled": false,
-        "info": "示例流程：Ventuz OSC 通信"
+        "info": "示例流程：OSC 通信"
     },
     {
         "id": "node-1",
-        "type": "ventuz-subscribe",
-        "z": "ventuz-example-flow",
-        "name": "Ventuz Subscribe",
+        "type": "osc-in",
+        "z": "osc-example-flow",
+        "name": "OSC In",
         "port": "9001",
         "address": "/ventuz/*",
         "x": 150,
@@ -20,7 +20,7 @@
     {
         "id": "node-2",
         "type": "debug",
-        "z": "ventuz-example-flow",
+        "z": "osc-example-flow",
         "name": "OSC Messages",
         "active": true,
         "tosidebar": true,
@@ -37,7 +37,7 @@
     {
         "id": "node-3",
         "type": "inject",
-        "z": "ventuz-example-flow",
+        "z": "osc-example-flow",
         "name": "Send Test Message",
         "props": [
             {
@@ -61,9 +61,9 @@
     },
     {
         "id": "node-4",
-        "type": "ventuz-broadcast",
-        "z": "ventuz-example-flow",
-        "name": "Ventuz Broadcast",
+        "type": "osc-out",
+        "z": "osc-example-flow",
+        "name": "OSC Out",
         "host": "127.0.0.1",
         "port": "9000",
         "address": "/ventuz/broadcast",
@@ -74,10 +74,10 @@
     {
         "id": "node-5",
         "type": "comment",
-        "z": "ventuz-example-flow",
-        "name": "Ventuz OSC 示例",
-        "info": "此示例演示如何使用 Ventuz OSC 节点进行通信。\n\n1. Subscribe 节点监听 OSC 消息\n2. Broadcast 节点发送 OSC 消息\n3. 使用 Inject 节点触发测试消息",
-        "x": 160,
+        "z": "osc-example-flow",
+        "name": "OSC 示例",
+        "info": "此示例演示如何使用 OSC 节点进行通信。\n\n1. OSC In 节点监听 OSC 消息\n2. OSC Out 节点发送 OSC 消息\n3. 使用 Inject 节点触发测试消息\n\n支持中文字符串（BEUC 编码）",
+        "x": 140,
         "y": 40,
         "wires": []
     }

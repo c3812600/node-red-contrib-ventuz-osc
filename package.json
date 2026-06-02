@@ -18,8 +18,8 @@
   "node-red": {
     "version": ">=2.0.0",
     "nodes": {
-      "ventuz-broadcast": "nodes/ventuz-broadcast.js",
-      "ventuz-subscribe": "nodes/ventuz-subscribe.js"
+      "osc-out": "nodes/osc-out.js",
+      "osc-in": "nodes/osc-in.js"
     }
   },
   "dependencies": {},
