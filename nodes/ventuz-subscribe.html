@@ -1,0 +1,56 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ventuz-subscribe', {
+        category: 'network',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            port: { value: 9001, required: true, validator: RED.validators.number() },
+            address: { value: "/ventuz/*", required: true }
+        },
+        inputs: 0,
+        outputs: 1,
+        icon: "bridge.svg",
+        label: function() {
+            return this.name || 'port ' + this.port;
+        },
+        paletteLabel: "ventuz subscribe"
+    });
+</script>
+
+<script type="text/html" data-template-name="ventuz-subscribe">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-port"><i class="fa fa-plug"></i> Port</label>
+        <input type="text" id="node-input-port" placeholder="9001">
+    </div>
+    <div class="form-row">
+        <label for="node-input-address"><i class="fa fa-map-marker"></i> OSC Address Filter</label>
+        <input type="text" id="node-input-address" placeholder="/ventuz/*">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="ventuz-subscribe">
+    <p>Ventuz Subscribe 节点</p>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">array</span></dt>
+        <dd>OSC 消息参数数组</dd>
+        <dt>topic <span class="property-type">string</span></dt>
+        <dd>OSC 地址</dd>
+        <dt>_raw <span class="property-type">buffer</span></dt>
+        <dd>原始 OSC 二进制数据</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>监听 Ventuz 应用广播的 OSC 消息。配置监听端口和地址过滤器。</p>
+    <p>支持通配符匹配：</p>
+    <ul>
+        <li><code>/ventuz/*</code> - 匹配所有 /ventuz/ 开头的地址</li>
+        <li><code>*</code> - 匹配所有地址</li>
+        <li><code>/ventuz/broadcast</code> - 精确匹配</li>
+    </ul>
+    <h3>Examples</h3>
+    <pre>[{"topic": "/ventuz/broadcast", "payload": ["Hello", "World"]}]</pre>
+</script>
