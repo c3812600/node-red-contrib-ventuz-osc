@@ -122,8 +122,12 @@ module.exports = function(RED) {
                 } else if (typeof arg === 'string') {
                     if (isContainsChinese(arg)) {
                         typeTags += 'b';
-                        var unicodeBytes = Buffer.from(arg, 'utf-16-be');
-                        var beucData = Buffer.concat([Buffer.from('BEUC', 'utf-8'), unicodeBytes]);
+                        // 手动编码 UTF-16BE
+                        var utf16beBytes = Buffer.alloc(arg.length * 2);
+                        for (var k = 0; k < arg.length; k++) {
+                            utf16beBytes.writeUInt16BE(arg.charCodeAt(k), k * 2);
+                        }
+                        var beucData = Buffer.concat([Buffer.from('BEUC', 'utf-8'), utf16beBytes]);
                         var beucLen = Buffer.alloc(4);
                         beucLen.writeUInt32BE(beucData.length);
                         data = Buffer.concat([data, beucLen, padTo4(beucData)]);

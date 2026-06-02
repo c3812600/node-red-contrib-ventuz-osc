@@ -47,7 +47,11 @@ module.exports = function(RED) {
             // 检查是否是 BEUC 编码（中文）
             if (data.length >= 4 && data.slice(0, 4).toString('utf-8') === 'BEUC') {
                 var unicodeBytes = data.slice(4);
-                var str = unicodeBytes.toString('utf-16-be');
+                // 手动解码 UTF-16BE
+                var str = '';
+                for (var k = 0; k < unicodeBytes.length; k += 2) {
+                    str += String.fromCharCode(unicodeBytes.readUInt16BE(k));
+                }
                 return { value: str, nextOffset: offset + 4 + len + padding };
             }
             
