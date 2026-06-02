@@ -10,16 +10,17 @@ module.exports = function(RED) {
         var node = this;
         
         // 配置
-        node.host = config.host || '127.0.0.1';
+        node.host = (config.host || '127.0.0.1').trim();
         node.port = parseInt(config.port) || 9000;
         node.address = config.address || '/ventuz/broadcast';
+        node.iface = (config.iface || '').trim();
         
         // 状态
         node.connected = false;
         
         // 初始化 UDP socket
         var dgram = require('dgram');
-        node.socket = dgram.createSocket('udp4');
+        node.socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
         
         // 检测是否为组播/广播地址
         var isMulticast = /^22[4-9]\.|^23[0-9]\./.test(node.host);
@@ -27,13 +28,22 @@ module.exports = function(RED) {
         
         // 绑定 socket 后再设置广播（发送端不需要加入组播组）
         node.socket.bind(0, function() {
-            if (isBroadcast) {
-                // 广播地址：启用广播
-                node.socket.setBroadcast(true);
-                node.log('Broadcast enabled');
-            } else if (isMulticast) {
-                // 组播地址：只需绑定，发送时指定组播地址即可
-                node.log('Multicast mode: sending to ' + node.host);
+            try {
+                if (isBroadcast) {
+                    // 广播地址：启用广播
+                    node.socket.setBroadcast(true);
+                    node.log('Broadcast enabled');
+                } else if (isMulticast) {
+                    // 组播配置
+                    node.socket.setMulticastLoopback(true);
+                    node.socket.setMulticastTTL(128);
+                    if (node.iface) {
+                        node.socket.setMulticastInterface(node.iface);
+                    }
+                    node.log('Multicast mode: sending to ' + node.host + (node.iface ? ' via ' + node.iface : ''));
+                }
+            } catch (e) {
+                node.error('Socket configuration error: ' + e.message);
             }
         });
         

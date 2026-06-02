@@ -6,7 +6,8 @@
             name: { value: "" },
             port: { value: 9001, required: true, validator: RED.validators.number() },
             address: { value: "/ventuz/*", required: true },
-            multicast: { value: "" }
+            multicast: { value: "" },
+            iface: { value: "" }
         },
         inputs: 0,
         outputs: 1,
@@ -34,6 +35,10 @@
     <div class="form-row">
         <label for="node-input-multicast"><i class="fa fa-network-wired"></i> Multicast Group</label>
         <input type="text" id="node-input-multicast" placeholder="230.230.230.235 (可选)">
+    </div>
+    <div class="form-row">
+        <label for="node-input-iface"><i class="fa fa-server"></i> Interface IP</label>
+        <input type="text" id="node-input-iface" placeholder="0.0.0.0 (可选)">
     </div>
 </script>
 

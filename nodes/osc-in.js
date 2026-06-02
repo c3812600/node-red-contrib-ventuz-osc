@@ -11,14 +11,15 @@ module.exports = function(RED) {
         // 配置
         node.port = parseInt(config.port) || 9001;
         node.address = config.address || '/ventuz/*';
-        node.multicast = config.multicast || '';
+        node.multicast = (config.multicast || '').trim();
+        node.iface = (config.iface || '').trim();
         
         // 状态
         node.listening = false;
         
         // 初始化 UDP socket
         var dgram = require('dgram');
-        node.socket = dgram.createSocket('udp4');
+        node.socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
         
         // OSC 解码函数
         function decodeOscString(buffer, offset) {
@@ -146,8 +147,8 @@ module.exports = function(RED) {
             // 如果配置了组播地址，加入组播组
             if (node.multicast && /^22[4-9]\.|^23[0-9]\./.test(node.multicast)) {
                 try {
-                    node.socket.addMembership(node.multicast);
-                    node.log('Joined multicast group: ' + node.multicast);
+                    node.socket.addMembership(node.multicast, node.iface || undefined);
+                    node.log('Joined multicast group: ' + node.multicast + (node.iface ? ' on interface ' + node.iface : ''));
                 } catch (e) {
                     node.error('Failed to join multicast group: ' + e.message);
                 }
