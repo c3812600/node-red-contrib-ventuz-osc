@@ -25,21 +25,15 @@ module.exports = function(RED) {
         var isMulticast = /^22[4-9]\.|^23[0-9]\./.test(node.host);
         var isBroadcast = node.host.endsWith('.255') || node.host === '255.255.255.255';
         
-        // 绑定 socket 后再设置组播/广播
+        // 绑定 socket 后再设置广播（发送端不需要加入组播组）
         node.socket.bind(0, function() {
-            if (isMulticast) {
-                // 组播地址：启用组播
-                node.socket.setBroadcast(true);
-                try {
-                    node.socket.addMembership(node.host);
-                    node.log('Multicast enabled for ' + node.host);
-                } catch (e) {
-                    node.warn('Failed to add multicast membership: ' + e.message);
-                }
-            } else if (isBroadcast) {
+            if (isBroadcast) {
                 // 广播地址：启用广播
                 node.socket.setBroadcast(true);
                 node.log('Broadcast enabled');
+            } else if (isMulticast) {
+                // 组播地址：只需绑定，发送时指定组播地址即可
+                node.log('Multicast mode: sending to ' + node.host);
             }
         });
         
