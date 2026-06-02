@@ -21,6 +21,25 @@ module.exports = function(RED) {
         var dgram = require('dgram');
         node.socket = dgram.createSocket('udp4');
         
+        // 检测是否为组播/广播地址并启用
+        var isMulticast = /^22[4-9]\.|^23[0-9]\./.test(node.host);
+        var isBroadcast = node.host.endsWith('.255') || node.host === '255.255.255.255';
+        
+        if (isMulticast) {
+            // 组播地址：启用组播
+            node.socket.setBroadcast(true);
+            try {
+                node.socket.addMembership(node.host);
+                node.log('Multicast enabled for ' + node.host);
+            } catch (e) {
+                node.warn('Failed to add multicast membership: ' + e.message);
+            }
+        } else if (isBroadcast) {
+            // 广播地址：启用广播
+            node.socket.setBroadcast(true);
+            node.log('Broadcast enabled');
+        }
+        
         // OSC 编码函数
         function isContainsChinese(s) {
             for (var i = 0; i < s.length; i++) {
