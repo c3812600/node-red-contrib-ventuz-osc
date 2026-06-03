@@ -1,4 +1,4 @@
-# node-red-contrib-ventuz-osc
+# @c3812600/node-red-ventuz-osc
 
 Node-RED 节点，用于 Ventuz OSC 通信。
 
