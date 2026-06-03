@@ -1,6 +1,6 @@
 {
   "name": "@c3812600/node-red-ventuz-osc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node-RED nodes for Ventuz OSC communication",
   "keywords": [
     "node-red",
@@ -13,10 +13,10 @@
   "author": "c3812600 <c3812600@qq.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/c3812600/node-red-ventuz-osc.git"
+    "url": "https://github.com/c3812600/node-red-contrib-ventuz-osc.git"
   },
   "bugs": {
-    "url": "https://github.com/c3812600/node-red-ventuz-osc/issues"
+    "url": "https://github.com/c3812600/node-red-contrib-ventuz-osc/issues"
   },
   "main": "index.js",
   "scripts": {
