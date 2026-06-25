@@ -33,7 +33,12 @@ npm install @c3812600/node-red-ventuz-osc
 **配置项：**
 - **host**: 目标主机地址（默认 127.0.0.1）
 - **port**: OSC 端口号（默认 9000）
-- **address**: OSC 地址（默认 /ventuz/broadcast）
+- **address**: OSC 地址（默认 /ventuz/broadcast，留空时使用默认值）
+
+**地址优先级：**
+1. 输入消息的 `msg.topic` 字段（最高优先级）
+2. 节点配置的 OSC Address 字段
+3. 留空时默认为 `/ventuz/broadcast`
 
 **输入消息格式：**
 ```json
@@ -56,7 +61,7 @@ npm install @c3812600/node-red-ventuz-osc
 
 **配置项：**
 - **port**: 监听端口号（默认 9001）
-- **address**: OSC 地址过滤器（默认 /ventuz/*）
+- **address**: OSC 地址过滤器（留空或 `*` 表示接收所有地址的消息）
 
 **输出消息格式：**
 ```json

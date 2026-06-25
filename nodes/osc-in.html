@@ -5,7 +5,7 @@
         defaults: {
             name: { value: "" },
             port: { value: 9001, required: true, validator: RED.validators.number() },
-            address: { value: "/ventuz/*", required: true },
+            address: { value: "*", required: false },
             multicast: { value: "" },
             iface: { value: "" }
         },
@@ -30,7 +30,7 @@
     </div>
     <div class="form-row">
         <label for="node-input-address"><i class="fa fa-map-marker"></i> OSC Address Filter</label>
-        <input type="text" id="node-input-address" placeholder="/ventuz/*">
+        <input type="text" id="node-input-address" placeholder="*">
     </div>
     <div class="form-row">
         <label for="node-input-multicast"><i class="fa fa-network-wired"></i> Multicast Group</label>
@@ -61,8 +61,8 @@
     <p>监听指定端口的 OSC 消息。支持 OSC Bundle 和单条消息。</p>
     <p>支持通配符地址过滤：</p>
     <ul>
-        <li><code>/ventuz/*</code> - 匹配所有 /ventuz/ 开头的地址</li>
-        <li><code>*</code> - 匹配所有地址</li>
+        <li><code>*</code> - 匹配所有地址（默认）</li>
+        <li><code>/ventuz/*</code> - 匹配 /ventuz/ 开头的地址</li>
         <li><code>/ventuz/broadcast</code> - 精确匹配</li>
     </ul>
     <p>自动解码 BEUC 编码的中文字符串。</p>

@@ -10,7 +10,7 @@ module.exports = function(RED) {
         
         // 配置
         node.port = parseInt(config.port) || 9001;
-        node.address = config.address || '/ventuz/*';
+        node.address = config.address || '*';
         node.multicast = (config.multicast || '').trim();
         node.iface = (config.iface || '').trim();
         

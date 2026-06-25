@@ -52,7 +52,14 @@
         <dd>OSC 地址（可选，覆盖节点配置）</dd>
     </dl>
     <h3>Details</h3>
-    <p>向指定目标发送 OSC 消息。支持以下数据类型：</p>
+    <p>向指定目标发送 OSC 消息。</p>
+    <p>地址可通过以下方式设置（优先级从高到低）：</p>
+    <ol>
+        <li>输入消息的 <code>msg.topic</code> 字段</li>
+        <li>节点配置的 OSC Address 字段</li>
+        <li>留空时默认为 <code>/ventuz/broadcast</code></li>
+    </ol>
+    <p>支持以下数据类型：</p>
     <ul>
         <li><b>整数</b> - 32位有符号整数</li>
         <li><b>浮点数</b> - 32位浮点数</li>

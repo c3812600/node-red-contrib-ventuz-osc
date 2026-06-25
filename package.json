@@ -1,6 +1,6 @@
 {
   "name": "@c3812600/node-red-ventuz-osc",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Node-RED nodes for Ventuz OSC communication",
   "keywords": [
     "node-red",
